@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>如果你玩不懂sl的某些技能可以看这里喵</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            width: 80px;
+            background-color: #1a1a2e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            justify-content: space-between;
+            height: 100%;
+        }
+        
+        .sidebar-buttons {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .sidebar-button {
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+            font-size: 14px;
+            user-select: none;
+        }
+        
+        .sidebar-button:hover {
+            background-color: #16213e;
+        }
+        
+        .sidebar-button.active {
+            background-color: #0f3460;
+            font-weight: bold;
+        }
+        
+        /* 信息图标按钮 */
+        .icon-button {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            background-color: transparent;
+            font-size: 14px;
+            user-select: none;
+        }
+        
+        .icon-button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            background-color: white;
+        }
+        
+        .content-page {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .content-page.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h1 {
+            margin-bottom: 25px;
+            color: #1a1a2e;
+            border-bottom: 2px solid #0f3460;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            margin: 30px 0 20px;
+            color: #0f3460;
+        }
+        
+        /* 对应表样式 */
+        .correspondence-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .correspondence-table th {
+            background-color: #0f3460;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .correspondence-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        .correspondence-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .male-cell {
+            background-color: #e1f5fe;
+            font-weight: bold;
+        }
+        
+        .female-cell {
+            background-color: #fce4ec;
+            font-weight: bold;
+        }
+        
+        .normal-cell {
+            background-color: #e8f5e9;
+            font-weight: bold;
+        }
+        
+        .premium-cell {
+            background-color: #e3f2fd;
+            font-weight: bold;
+        }
+        
+        /* 铁驭表格样式 */
+        .pilot-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .pilot-table th {
+            background-color: #0f3460;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .pilot-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+        
+        .pilot-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .pilot-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .skill-name {
+            font-weight: bold;
+            color: #0f3460;
+            white-space: nowrap;
+            width: 120px;
+        }
+        
+        /* 泰坦页面样式 */
+        .titan-section {
+            margin-bottom: 40px;
+        }
+        
+        .normal-titan {
+            background-color: white;
+            padding: 20px;
+            border-left: 4px solid #0f3460;
+        }
+        
+        .premium-titan {
+            background-color: #e1f5fe;
+            padding: 20px;
+            border-left: 4px solid #00bcd4;
+        }
+        
+        .titan-ability {
+            margin-bottom: 25px;
+        }
+        
+        .titan-skill {
+            margin-left: 40px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .titan-skill-name {
+            font-weight: bold;
+            color: #e94560;
+            display: inline-block;
+            width: 80px;
+        }
+        
+        /* 信息页面样式 */
+        .info-content {
+            padding: 20px;
+        }
+        
+        .info-section {
+            margin-bottom: 25px;
+        }
+        
+        .info-title {
+            font-weight: bold;
+            color: #0f3460;
+            margin-bottom: 10px;
+        }
+        
+        /* 猫耳装饰 */
+        .cat-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .cat-title::before,
+        .cat-title::after {
+            content: "ฅ^•ﻌ•^ฅ";
+            position: absolute;
+            top: -10px;
+            font-size: 0.8em;
+        }
+        
+        .cat-title::before {
+            left: -50px;
+        }
+        
+        .cat-title::after {
+            right: -50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <div class="sidebar">
+        <div class="sidebar-buttons">
+            <div class="sidebar-button active" onclick="switchPage('home')">
+                <span>首页</span>
+            </div>
+            <div class="sidebar-button" onclick="switchPage('correspondence')">
+                <span>对应表</span>
+            </div>
+            <div class="sidebar-button" onclick="switchPage('pilot')">
+                <span>铁驭</span>
+            </div>
+            <div class="sidebar-button" onclick="switchPage('titan')">
+                <span>泰坦</span>
+            </div>
+        </div>
+        
+        <!-- 信息按钮 -->
+        <div class="icon-button" onclick="switchPage('info')" title="信息">
+            <span>i</span>
+        </div>
+    </div>
+    
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 首页内容 -->
+        <div id="home" class="content-page active">
+            <div style="text-align: center;">
+                <h1 class="cat-title">如果你玩不懂sl的某些技能可以看这里喵</h1>
+                <p style="color: #e94560; font-size: 18px; font-weight: bold; margin: 30px 0;">阅读可能会破坏您的探索体验</p>
+                <p>大部分情况下不会提及有关于数值(例如CD 伤害 可储存上限)的变化</p>
+                <p>可能有些过时？告诉@0youer哪里需要更改就会去改，可能主动更新频率很低</p>
+                <p>请用电脑端打开</p>
+                <p>-</p>
+                <p>点击侧边栏以开始</p>
+            </div>
+        </div>
+        
+        <!-- 对应表内容 -->
+        <div id="correspondence" class="content-page">
+            <h1>技能对应表</h1>
+            
+            <h2>铁驭技能对应表</h2>
+            <table class="correspondence-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">男性铁驭技能</th>
+                        <th style="width: 40%;">女性铁驭技能</th>
+                        <th style="width: 20%;">备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="male-cell">隐身</td>
+                        <td class="female-cell">隐身立场</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="male-cell">脉冲刀</td>
+                        <td class="female-cell">脉冲刀</td>
+                        <td class="female-cell">暂无改变</td>
+                    </tr>
+                    <tr>
+                        <td class="male-cell">钩爪</td>
+                        <td class="female-cell">滑索枪</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="male-cell">激素</td>
+                        <td class="female-cell">破坏球</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="male-cell">A壁障</td>
+                        <td class="female-cell">烟雾陷阱</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="male-cell">相位</td>
+                        <td class="female-cell">传送门</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="male-cell">幻影</td>
+                        <td class="female-cell">幻影转移</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2>泰坦对应表</h2>
+            <table class="correspondence-table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">普通皮肤泰坦</th>
+                        <th style="width: 40%;">至尊皮肤泰坦</th>
+                        <th style="width: 20%;">备注</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="normal-cell">离子</td>
+                        <td class="premium-cell">执政官</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="normal-cell">烈焰</td>
+                        <td class="premium-cell">堡垒</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="normal-cell">北极星</td>
+                        <td class="premium-cell">野兽四号</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="normal-cell">浪人</td>
+                        <td class="premium-cell">游侠</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="normal-cell">强力</td>
+                        <td class="premium-cell">天图</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="normal-cell">军团</td>
+                        <td class="premium-cell">巨妖</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td class="normal-cell">帝王</td>
+                        <td class="premium-cell">远征</td>
+                        <td class="premium-cell">使用帝王远征皮肤而非至尊泰坦</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 铁驭内容 -->
+        <div id="pilot" class="content-page">
+            <h1>铁驭</h1>
+            
+            <h2>男性铁驭</h2>
+            <div style="color: #666; margin-bottom: 20px;">没有需要特别描述的</div>
+            
+            <h2>女性铁驭</h2>
+            <table class="pilot-table">
+                <thead>
+                    <tr>
+                        <th>技能名称</th>
+                        <th>技能描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="skill-name">隐身立场</td>
+                        <td>向前掷出一个铁球，在落点形成一个隐身立场生成器，在生成器附近的友方铁驭会隐身，离开生成器一段时间之内也会保持隐身。生成器附近的圆环代表可持续的时间，立场生成器会因为敌方攻击而被击毁。</td>
+                    </tr>
+                    <tr>
+                        <td class="skill-name">脉冲刀</td>
+                        <td>没有需要特别描述的。</td>
+                    </tr>
+                    <tr>
+                        <td class="skill-name">滑索枪</td>
+                        <td>当站在地面上时，可以向准心所指处释放一个滑索，滑索连接目前所在位置和指定位置。有存在时间限制，不会被攻击，充能指示条可能不准确。</td>
+                    </tr>
+                    <tr>
+                        <td class="skill-name">破坏球</td>
+                        <td>丢出一个"破坏球"，所经过的地方会留下加速点，铁驭经过加速点时会获得短暂加速。破坏球碰到敌人或者存在时间达到上限时爆炸，爆炸效果与电弧手雷相似。</td>
+                    </tr>
+                    <tr>
+                        <td class="skill-name">烟雾陷阱</td>
+                        <td>丢出圆盘状烟雾陷阱，接触到地面时释放烟雾，敌方进入烟雾范围时，获得声呐标记。</td>
+                    </tr>
+                    <tr>
+                        <td class="skill-name">传送门</td>
+                        <td>在原地创建一个蓝色球形传送标记，此时移动时消耗传送能量，在传送能量消耗完毕之前再次使用技能，在当前位置和传送标记位置创建传送门。铁驭靠近传送门会被传送，传送路径与创建传送门时的行动路径相同，充能指示条可能不准确。</td>
+                    </tr>
+                    <tr>
+                        <td class="skill-name">幻影转移</td>
+                        <td>创建一个幻影，再次使用技能会被传送回幻影处，幻影会被敌方击破，传送到幻影面对的水平角度会和幻影相同，充能指示条可能不准确。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 泰坦内容 -->
+        <div id="titan" class="content-page">
+            <h1>泰坦</h1>
+            <h1 style="color: #ff5733;">抱歉，泰坦介绍部分严重滞后了，文章内容待更新</h1>
+            <h2>普通皮肤泰坦</h2>
+            <div class="titan-section normal-titan">
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">离子：</div>
+                    <div style="margin-left: 20px; margin-bottom: 15px;">使用核心击杀泰坦回复血量。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">烈焰：</div>
+                    <div style="margin-left: 20px; margin-bottom: 15px;">精英对除火焰核心以外的火焰有火焰抗性。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">北极星：</div>
+                    <div style="margin-left: 20px; margin-bottom: 15px;">使用核心时有一面跟随的无法破坏的护盾。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">浪人：</div>
+                    <div style="margin-left: 20px; margin-bottom: 15px;">核心期间若护盾已满使用大刀攻击增加护盾上限，上限2w，自带适者生存。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">强力：</div>
+                    <div style="margin-left: 20px; margin-bottom: 15px;">电弧陷阱会我方强力标记敌人。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">军团：</div>
+                    <div style="margin-left: 20px; margin-bottom: 15px;">强大火力最多可以连续使用四次，隐藏部件不再减少伤害。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">帝王：</div>
+                    <div style="margin-left: 20px; margin-bottom: 15px;">边境不再削减伤害，最高可升级到九级（获得所有核心升级），导弹升级后可锁定步兵。</div>
+                </div>
+            </div>
+            
+            <h2>至尊皮肤泰坦</h2>
+            <div class="titan-section premium-titan">
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">执政官：</div>
+                    <div class="titan-skill"><span class="titan-skill-name">主武器：</span> 开始蓄力后就会增加伤害，对被攻击者附近的敌方单位有连锁伤害。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">Q：</span> 发射一个电浆爆破弹，有减速效果，命中自己会导致视觉模糊。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">G：</span> 丢出拌线，拌线发出电弧场干扰并减速敌方，不会被破坏。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">鼠标中键：</span> 漩涡护盾，与离子相似，可以无限使用。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">核心：</span> 类似发出三道电弧波。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">堡垒：</div>
+                    <div class="titan-skill"><span class="titan-skill-name">主武器：</span> 仅远距离模式的猎杀者炮。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">Q：</span> 向前飞跃一段距离，配合空格可以飞跃更远。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">G：</span> 拌锁陷阱。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">鼠标中键：</span> 枪盾，无法被破坏。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">核心：</span> 类似火焰核心。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">野兽四号：</div>
+                    <div class="titan-skill"><span class="titan-skill-name">主武器：</span> 四段火箭，不瞄准一次发射4个，瞄准时射速更快但每次只发射一个。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">Q：</span> 重力陷阱，吸引附近敌人并造成伤害。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">G：</span> 悬浮，再次使用技能可提前降落。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">鼠标中键：</span> 发出护盾，阻挡子弹，可以推动敌人并造成伤害。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">核心：</span> 主武器更改为每次发射一个类似集束炸弹，瞄准时射速更快。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">游侠：</div>
+                    <div class="titan-skill"><span class="titan-skill-name">主武器：</span> 三连环榴弹，发射磁吸炸弹，会自动吸附到敌人身上，爆炸范围较大。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">Q：</span> hud上的黄色方框面向敌人时会自动锁定，锁定后方可使用，使用后朝敌人方向发射多次三联导弹。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">G：</span> 使用后发出类似电弧泰坦被动的电弧场。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">鼠标中键：</span> 快速剑封。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">核心：</span> 无限冲刺，击败敌人不会延长时间，不会阻挡处决。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">天图：</div>
+                    <div class="titan-skill"><span class="titan-skill-name">主武器：</span> 下坠严重的40毫米炮，不会标记敌人。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">Q：</span> 发出激光，命中后标记敌人，被标记的敌人更容易受到伤害，会被声纳标记。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">G：</span> 接下来的30发弹药减少下坠，在使用完这些弹药之前，CD不会回复。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">鼠标中键：</span> 无敌的泡泡盾，阻挡敌我双方所有子弹。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">核心：</span> 增加主武器伤害。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">巨妖：</div>
+                    <div class="titan-skill"><span class="titan-skill-name">主武器：</span> 龙息炮。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">Q：</span> 类似雷电炮，命中敌人会回复护盾，连接炮弹与泰坦的能量链没有伤害。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">G：</span> 发射远程电子烟雾。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">鼠标中键：</span> 跟随自己的泡泡盾，会被伤害打破，颜色代表剩余血量，有时间限制，冲刺会打破。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">核心：</span> 核心期间持续回复护盾。</div>
+                </div>
+                
+                <div class="titan-ability">
+                    <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">远征：</div>
+                    <div class="titan-skill"><span class="titan-skill-name">主武器：</span> XO-16，随着持续射击散布变大。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">Q：</span> 锁定导弹，可锁定步兵。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">G：</span> 电子烟雾。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">鼠标中键：</span> 类似离子的漩涡护盾。</div>
+                    <div class="titan-skill"><span class="titan-skill-name">核心：</span> 爆发核心，使用期间持续射击，伤害比正常射击高。</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 信息页面内容 -->
+        <div id="info" class="content-page">
+            <h1>信息</h1>
+            <div class="info-section">
+                <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">编：</div>
+                <div style="margin-left: 20px;">0youer</div>
+                <div style="margin-left: 20px;">坏悠尔又不写完整</div>
+            </div>
+            <div class="info-section">
+                <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">帮助：</div>
+                <div style="margin-left: 20px;">bluct</div>
+                <div style="margin-left: 20px;">Spirit_Fireflies</div>
+                <div style="margin-left: 20px;">Reera0Senadina</div>
+            </div>
+            <div class="info-section">
+                <div style="font-weight: bold; color: #0f3460; margin-bottom: 10px;">其他信息：</div>
+                <div style="margin-left: 20px;">放在网站上可以支持手机端,或许后续会更新</div>
+                <div style="margin-left: 20px;">上次更新于20250512,可能未及时更新</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 页面切换函数
+        function switchPage(pageId) {
+            // 隐藏所有内容页面
+            const pages = document.querySelectorAll('.content-page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 显示选中的内容页面
+            document.getElementById(pageId).classList.add('active');
+            
+            // 更新侧边栏按钮状态(不包括图标按钮)
+            const buttons = document.querySelectorAll('.sidebar-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // 设置当前按钮为活动状态
+            if(pageId !== 'info') {
+                const activeButton = document.querySelector(`.sidebar-button[onclick="switchPage('${pageId}')"]`);
+                if(activeButton) {
+                    activeButton.classList.add('active');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

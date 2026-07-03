@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SL 萌新指南</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        .search-container {
+            margin-bottom: 0px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        #searchInput {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        #searchButton {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #searchButton:hover {
+            background-color: #2980b9;
+        }
+        .section.index-section, .section.statement-section {
+            background-color: #fffde7;
+            border-left: 4px solid #ffd600;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid #e3f2fd;
+        }
+        .subsection {
+            margin-left: 15px;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 3px solid #e8f5e9;
+        }
+        .subsection-content {
+            margin-left: 10px;
+            padding-left: 10px;
+            border-left: 2px dashed #e0e0e0;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .section-header:hover {
+            background-color: #e9ecef;
+        }
+        .section-header i {
+            margin-right: 10px;
+            font-size: 20px;
+            color: #2c3e50;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+            color: #2c3e50;
+        }
+        .section-content {
+            padding: 10px;
+            display: none;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .section-content.show {
+            display: block;
+        }
+        .subsection-header {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px;
+            background-color: #f1f3f5;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .subsection-header:hover {
+            background-color: #e1e3e5;
+        }
+        .subsection-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            color: #3a5169;
+        }
+        .subsection-content {
+            padding: 8px;
+            display: none;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .subsection-content.show {
+            display: block;
+        }
+        p, li {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .highlight {
+            background-color: #ffeeba;
+            padding: 2px;
+            border-radius: 3px;
+        }
+        .link-button {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+            margin: 5px 0;
+            border: 1px solid #bbdefb;
+        }
+        .search-results {
+            margin-top: 0;
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+            border-top: 1px solid #ddd;
+        }
+        .index-section {
+            margin-top: 20px; /* 为索引部分添加上间距，与搜索结果框分离 */
+        }
+        .search-result-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .search-result-item:hover {
+            background-color: #f8f9fa;
+        }
+        .search-result-item .path {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>SL 萌新指南</h1>
+    
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="搜索指南内容...">
+        <button id="searchButton">搜索</button>
+    </div>
+    
+    <div id="searchResults" class="search-results">
+        <h3>搜索结果</h3>
+        <div id="searchResultsList"></div>
+    </div>
+    
+    <div class="section index-section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <i class="fas fa-list"></i>
+            <h2 class="section-title">索引</h2>
+        </div>
+        <div class="section-content show">
+            <p>欢迎来到 SL,我将在这里为您提供指南</p>
+            <p>本教程为泰坦陨落2的北极星sl玩家准备,泰坦陨落1玩家无需阅读</p>
+            <p>本文档所有网址单击即可打开,可以使用搜索框进行查询</p>
+            <p>SL 是泰坦陨落2北极星 CN社区的服务器</p>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <i class="fas fa-exclamation-circle"></i>
+            <h2 class="section-title">萌新必看</h2>
+        </div>
+        <div class="section-content">
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">游戏准备</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>请确保您拥有正版的泰坦陨落2并装载了北极星 CN</p>
+                    <p>如果您没有泰坦陨落2, 推荐先在 Steam 进行购买</p>
+                    <p>如果您已经拥有并下载了泰坦陨落2,请先下载北极星 CN</p>
+                    <p>北极星 CN官方网站有较为详细的下载教程,推荐下载北极星CN 启动器(自动安装器)</p>
+                    <a href="https://northstar.cool/wiki/category/%E5%88%9D%E6%9D%A5%E4%B9%8D%E5%88%B0" target="_blank" class="link-button">北极星CN官方下载教程</a>
+                    <p>本文档所有网址推荐复制到浏览器打开</p>
+                    <p>如果您感觉过分困难,B站也有详细的教程</p>
+                    <a href="https://www.bilibili.com/video/BV1hD421u7i9/?spm_id_from=333.337.search-card.all.click&vd_source=bd5444a4df8bb35a65b23224e395e329" target="_blank" class="link-button">B站北极星CN安装视频教程</a>
+                    <p>(此视频与本指南部分教程重合)</p>
+                    <p>如果您仍然感觉过分困难，可以求助于他人</p>
+                    <p>在此段落遇到问题，在群内提问时请@悠尔0youer以便于改进萌新指南</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">MOD安装</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>如果没有安装指定 MOD，您仍然可以进入服务器，但会导致很多 bug</p>
+                    <p>例如：无法看见精英泰坦血条、强力无法锁定精英泰坦,以及某些情况下的闪退。</p>
+                    <p>建议您安装的mod：</p>
+                    <p>EliteTitanFix20260510           		</p>
+                    <a href="downloads/EliteTitanFix20260510.zip" class="link-button" download>单击我下载EliteTitanFix20260510</a>
+                    <p>Northstar.FD20260620      	    </p>
+                    <a href="downloads/Northstar.FD20260620.zip" class="link-button" download>单击我下载Northstar.FD20260620</a>
+                    <p>同时文件也会存在 QQ 群:路径:群文件>萌新指南(群文件中有很多名称相似的文件,不要使用最新版本,请确认是正确的文件夹中，并且是正确的名称)</p>
+                    <p>如果已经安装了摸鱼服的摸鱼飞弹或者ks的 QQ 群的修复 mod,会导致 mod 冲突,在mods管理器中不要同时启用。</p>
+                    <p>精简教程:下载这两个mod并放在Titanfall2\R2Northstar\mods文件夹中。需要解压</p>
+                    <p>详细教程:</p>
+                    <ol>
+                        <li>先将这些文件下载至任何你可以找到的地方,点击下载按钮后选择另存为,并保存到一个您可以找到的路径(如果您是电脑小白,建议下载至桌面)</li>
+                        <li>如果您在 Steam 平台上购买了游戏,请打开 Steam 库>首页>找到并打开泰坦陨落2界面>右侧小齿轮图标(鼠标悬浮时显示"管理")>弹出的选项中:管理>弹出的选项中:浏览本地文件    此时会弹出Titanfall2文件管理窗口</li>
+                        <li>如果您在 orange 平台上购买了游戏,请在您设置的游戏下载位置找到并打开Titanfall2文件管理窗口(您的文件位置:打开EAApp>左上角三条横线图标>设置(s)>下载>安装位置>此时就可以看到您的文件位置)</li>
+                        <li>在Titanfall2文件管理窗口找到R2Northstar,如果您没有找到，请检查"游戏准备"的内容是否完成</li>
+                        <li>请打开以下路径Titanfall2\R2Northstar\mods，如果不出意外，您的mods文件夹中应该有以下3个核心 mod：Northstar.CustomServers、Northstar.Custom、Northstar.Client。请无视并不要卸载！！！不要删除！！不要删除！！</li>
+                        <li>将您提前在 QQ 群内下载好的文件移动到这里，不出意外，他们现在都是zip格式</li>
+                        <li>选中其中一个，使用鼠标右键它，选择全部解压缩，在跳出的窗口选择确定</li>
+                        <li>选中另外一个，使用鼠标右键它，选择全部解压缩，在跳出的窗口选择确定</li>
+                        <li>如果没有跳出全部解压缩选项，可能是您的电脑不具备解压 zip 格式的能力，这并不是硬件的问题。请在网络上寻找解压软件或观看以下教程</li>
+                        <a href="https://www.bilibili.com/video/BV1xZ4y1v7pU/?spm_id_from=333.337.search-card.all.click&vd_source=bd5444a4df8bb35a65b23224e395e329" target="_blank" class="link-button">B站解压软件使用教程</a>
+                        <li>解压完成之后请检查文件夹内是否有同名文件夹？如果有,请将它移动到mods 文件夹,并删除空文件夹</li>
+                        <li>之后可以得到同名文件夹，此时，如果压缩包存在可以删除压缩包。此时您的 mods 文件夹应该如下</li>
+                        <img class="banner" src="photo/guide-mods-folder.webp" alt="示例图片" width="800">
+                        <li>您接下来可以使用北极星 CN 启动器/泰坦陨落二游戏文件中的NorthstarLauncher.exe启动游戏,在主界面点击中下方的模组MODS,此时该界面的情况应该如下</li>
+                        <img class="banner" src="photo/guide-mods-menu.webp" alt="示例图片"width="800">
+                        <li>您接下来可以启动游戏尽情愉快的游玩!欢迎您,新成员</li>
+                    </ol>
+                     </div>
+                    <p>在此段落遇到问题，在群内提问时请@悠尔0youer以便于改进萌新指南</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <i class="fas fa-gamepad"></i>
+            <h2 class="section-title">关于游戏玩法</h2>
+        </div>
+        <div class="section-content">
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">房间难度与泰坦等级</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>无法进入较高难度的房间?在高难度房间无法使用某些泰坦?</p>
+                    <p>当最高等级的泰坦仍不满足房间最低等级要求,您无法正常游戏</p>
+                    <p>只有满足房间等级要求的泰坦才能被使用</p>
+                    <p>北极星虽然解锁了所有神盾的效果，但神盾等级依然是从零开始计算</p>
+                    <p>您需要从简单开始不断使用该泰坦，来提升它的神盾等级。直到您可以在想要的难度中使用它</p>
+                    <p>只有7个原版泰坦计算神盾等级，客制化泰坦会和原版泰坦算到一起，所以您可以偷懒</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">客制化内容</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>为什么这些敌方/我方泰坦我都没见过？</p>
+                    <p>本服务器拥有大量客制化内容                                                                                     #客制化：即定制化或自定义</p>
+                    <p>例如各种泰坦的核武变种,各种泰坦的精英变种等等内容</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">精英泰坦</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>什么是精英泰坦？</p>
+                    <p>精英泰坦是我们服务器的特色</p>
+                    <p>外貌特征为白色至尊或者为黑红、黄色涂装的精英泰坦</p>
+                    <p>精英泰坦拥有较高的血量,并且会更频繁的使用核心技能</p>
+                    <p>不同的精英泰坦有不同的特性,您可以自行探索</p>
+                    <p>在地图上,精英泰坦会显示它的泰坦种类(但是图标只有那么几个)，在抬头显示上,它拥有特殊标识</p>
+                    <p>精英在普通和简单难度掉落电池（绿色），精英在困难和大师难度掉落强化电池（黄色）</p>
+                    <p>非白色涂装的精英有特殊能力</p>
+                    <p>玩家使用精英泰坦:使用至尊皮肤的同时，使用坚韧光芒皮肤，要求有精英权限（通过高难度获取）</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">泰坦替换机制</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>为什么我的泰坦会被替换成其他泰坦？</p>
+                    <p>在 SL 服务器中使用至尊泰坦会被替换为对应的客制化泰坦,帝王使用远征皮肤会被替换为远征</p>
+                    <p>精英泰坦需要解锁后使用,解锁条件:</p>
+                    <p>"在无我方精英,变种帝王,先锋级泰坦在场的情况下万分无重启完美通过困难及以上难度以下地图三次</p>
+                    <p>遗迹(要求前三名)、天使城(要求第一名)、虎大(要求第一名)、家园(要求前二名)、城镇(要求第一名)、设施(要求第一名)、战游(要求第一名)、系外(要求第一名)</p>
+                    <p>将通过截图(要求整个游戏窗口,且能看到胜利字样,玩家排名,采集机情况)和uid发给管理@陵光庚辰 以解锁精英"                                              #uid在游戏中显示，保持在屏幕左上角那一串数字</p>
+                    <p>先锋级泰坦需要解锁后使用,解锁条件:</p>
+                    <p>"在无我方精英,变种帝王,先锋级泰坦在场的情况下万分无重启完美通过大师及以上难度以下地图三次</p>
+                    <p>"遗迹(要求前二名)、天使城(要求第一名)、殖民地(要求第一名)、家园(要求第一名)、城镇(要求第一名)、设施(要求第一名)、战游(要求第一名)、系外(要求第一名)</p>
+                    <p>将通过截图(要求整个游戏窗口,且能看到胜利字样,玩家排名,采集机情况)和uid发给管理@陵光庚辰 以解锁精英"                                              #uid在游戏中显示，保持在屏幕左上角那一串数字</p>
+                    <p>#uid在游戏 中显示，为屏幕左上角玩家ID后那一串数字</p>
+                    <p>#精英驾驶资格证和先锋驾驶资格证的考核不可同时进行,但两种资格证的考核没有时间和先后限制</p>
+                    <p>#截图举例如下</p>
+                    <img class="banner" src="photo/guide-victory-proof.webp" alt="示例图片" width="800">
+
+                    <p>在 SL 服务器中使用至尊泰坦同时使用坚韧光芒皮肤会替换为精英泰坦,帝王坚韧光芒皮肤会替换为精英泰坦(注意:关于这类游戏内提示可能不准确)</p>
+                    <p>关于帝王使用指定皮肤替换成神盾泰坦,图片在群精华内容,由@Acacia1076制作(注意:关于这类游戏内提示可能不准确)</p>
+                    <p>目前暂时没有新版本相关文档,如果不清楚某项技能的具体效用,可以在群中询问他人</p>
+                    <p>关于我们服务器的客制化泰坦,您可以去简单房间自行尝试.并不推荐您在其他难度的房间中尝试</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">技能替换</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>为什么我的技能会被替换成其他技能？</p>
+                    <p>在 SL 服务器中使用女性铁驭会被替换为对应的客制化铁驭(有不同的技能)</p>
+                    <a href="https://taki-ohh.github.io/Mr.-Youer/skills.html" target="_blank" class="link-button">铁驭技能简述</a>
+                    <p>您可以在简单模式游戏中自行探索,不明白可以询问群友</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">特殊功能</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>为什么我的队友可以实现一些特殊功能，而我却不行？</p>
+                    <p>在游戏内铁驭状态下长按 g 可以打开菜单,菜单中会显示一部分数值(默认键位下）</p>
+                    <p>在菜单中可以召唤核武泰坦,使用巡飞弹</p>
+                    <p>实心的两个菱形作为光标存在,通过提示消失后的短按来切换选择,长按则是使用</p>
+                    <p>这并不复杂,根据菜单中的提示操作便可以完成</p>
+                    <p>核武泰坦可以在商店中购买，在商店里购买的会直接出现在强化卡槽</p>
+                    <p>在游戏内长按g即可以丢弃电池,长按 c 可以让铁驭使用电池,护盾电池会优先为您抵挡伤害</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">简单模式</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>简单模式的特殊区别</p>
+                    <p>在简单房间中，拥有更简单的精英、波次和至尊白色涂装下被强化的自动泰坦</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">地图变更</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>为什么地图游戏内容出现变更?</p>
+                    <p>我们改变了大部分地图</p>
+                    <p>大部分地图敌方泰坦降落数量/种类/地点全部被改变</p>
+                    <p>其中一部分地图被我们添加了特殊效果</p>
+                    <p>例如波次变化,特殊事件,获得特殊武器</p>
+                    <p>出现特殊事件时，游戏内会有文字或语音提示,请留意观察</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">恶性游戏行为</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>关于恶性游戏行为</p>
+                    <p>如果您的队友在比赛中途/波次重启时退出,您可以通过@管理 来举报他,需要有截图证据</p>
+                    <p>两次被中途退出会被服务器ban,如果您是因为特殊情况而被迫终止游戏,请及时在群聊中发送信息,并与举报的队友达成和解</p>
+                    <p>通过特殊手段故意伤害队友可能会被警告或处罚,如果是双方不介意的玩笑则无所谓</p>
+                    <p>举报在群聊中就可以进行,请不要骚扰管理或者群内其他人</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">体验更多内容</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>体验更多内容</p>
+                    <p>欢迎在群聊中多多发言</p>
+                    <p>后续版本更新时萌新指南也会一起更新</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <i class="fas fa-comments"></i>
+            <h2 class="section-title">关于群聊</h2>
+        </div>
+        <div class="section-content">
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">群聊规则</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>关于这个群聊</p>
+                    <p>这边建议将群聊内名称修改为游戏 id,更方便交流（改不改都行）</p>
+                    <p>群聊内控制色和屎。同时群内禁止任何非法内容进行传播!!</p>
+                    <p>在群里互喷，可能会被暂时禁言或者撤回信息(当然并不一定)</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">游戏难度</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>关于游戏难度</p>
+                    <p>或许我们服务器的游戏内容对你来说有一点难                       #打游戏开心最重要</p>
+                    <p>不要惊讶，我们服务器的简介中已经写明是高压边境服务器</p>
+                    <p>祝您有一个愉快的游戏体验</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">精锐铁驭</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>精锐铁驭</p>
+                    <p>经常参与测试的SL铁驭,要求并不具体        #打游戏开心就好:)</p>
+                    <p>此功能手动找@0youer</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">群机器人</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>群机器人</p>
+                    <p>在群内发送"nscn"通过Tiko获取北极星服务器列表信息,功能为@ZZK群友提供</p>
+                    <p>在群内发送".r[数字]d[数字]"通过Tiko随机获得指定数字(摇骰子),功能为@ZZK群友提供</p>
+                    <p>q 群管家目前只负责给新玩家发送信息</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <i class="fas fa-question-circle"></i>
+            <h2 class="section-title">问题帮助</h2>
+        </div>
+        <div class="section-content">
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">商店页面问题</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>是否加入了上述模组后游戏中的商店只能买一些强化和电池？</p>
+                    <p>加入模组后的商店页面有三页,需要使用商店页面中的较小的圆形按钮来切换上一页/下一页</p>
+                    <img class="banner" src="photo/guide-store-pages.webp" alt="示例图片" width="800">
+                    <p>这个圆形按钮可能会和其他 UI 有一点重合,这是正常的</p>
+                   </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">MOD禁用方法</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>是否在其他边境服务器内无法正常使用商店?</p>
+                    <p>这是因为您使用了Northstar.FD MOD导致的,接下来我会告诉您如何禁用它</p>
+                    <p>首先，使用北极星CN启动器启动北极星</p>
+                    <p>打开最底部的"模组MODS"选项，在左边的mods列表中找到你需要禁用的mod</p>
+                    <p>点击左边的绿色勾，当它变成红色的叉时，此mod已经被禁用。完成后请点击"重新加载模组MODS"或者退出北极星重新启动</p>
+                    <p>当然,直接卸载 mod是更直接的方法，但下次游玩时会更加麻烦</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">游戏报错</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>是否在启动游戏时会报错?</p>
+                    <p>首先，请尝试重新启动游戏。有一些问题会在重新启动游戏后消失。</p>
+                    <p>您可能需要的材料有:报错内容截图</p>
+                    <p>控制台截图(键盘上的`~可以打开控制台)</p>
+                    <p>日志(logs)截图,需要在文件中寻找Titanfall2\R2Northstar\logs\按时间排序最后的文件</p>
+                    <p>mods文件夹截图</p>
+                    <p>尽可能描述您的状况,以便于群主/管理员/其他可以帮助您解决问题的群友可以尽快地帮您解决问题</p>
+                    <p>也可以通过重装解决大部分问题:重装方法如下</p>
+                    <a href="https://www.bilibili.com/read/cv39579500/?spm_id_from=333.999.0.0&jump_opus=1" target="_blank" class="link-button">B站北极星重装教程</a>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">被弹飞问题</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>为什么我突然被弹飞很远了？</p>
+                    <p>可能是因为敌方泰坦技能、特殊设计</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <div class="subsection-header" onclick="toggleSubsection(this)">
+                    <h3 class="subsection-title">指南内容说明</h3>
+                </div>
+                <div class="subsection-content">
+                    <p>为什么这个指南不包含所有内容的解释？</p>
+                    <p>这个指南只面向于萌新</p>
+                    <p>本人希望萌新能够自己探索,并不愿意破坏萌新的游戏体验</p>
+                    <p>指南不定期更新,指南出现问题，请在群中@悠尔0youer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section statement-section">
+        <div class="section-header" onclick="toggleSection(this)">
+            <i class="fas fa-info-circle"></i>
+            <h2 class="section-title">声明</h2>
+        </div>
+        <div class="section-content show">
+            <p>您大概可以信任萌新指南,萌新指南的更新简单且迅速，实际游玩过程中群主和管理员的发言往往是更加正确的</p>
+            <p>在特殊情况下跟不上版本并出现大面积错误@悠尔0youer会去删除老版本来保证您不会接受错误的引导</p>
+        </div>
+    </div>
+
+    <script>
+        // 折叠/展开功能
+        function toggleSection(element) {
+            const section = element.closest('.section');
+            const content = section.querySelector('.section-content');
+            content.classList.toggle('show');
+        }
+        
+        function toggleSubsection(element) {
+            const subsection = element.closest('.subsection');
+            const content = subsection.querySelector('.subsection-content');
+            content.classList.toggle('show');
+        }
+
+        // 初始展开索引和声明部分，其他部分默认折叠
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.index-section .section-content').classList.add('show');
+            document.querySelector('.statement-section .section-content').classList.add('show');
+        });
+        
+        // 搜索功能
+        document.getElementById('searchButton').addEventListener('click', function() {
+            searchText();
+        });
+        
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchText();
+            }
+        });
+        
+        function searchText() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (searchTerm === '') {
+                document.getElementById('searchResults').style.display = 'none';
+                return;
+            }
+            
+            // 移除之前的高亮
+            document.querySelectorAll('.highlight').forEach(el => {
+                el.classList.remove('highlight');
+            });
+            
+            // 折叠所有内容
+            document.querySelectorAll('.section-content, .subsection-content').forEach(el => {
+                el.classList.remove('show');
+            });
+            
+            // 搜索并收集结果
+            const allTextElements = document.querySelectorAll('p, li, .subsection-title, .section-title, .link-button');
+            const results = [];
+            
+            allTextElements.forEach(el => {
+                const text = el.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    // 获取路径信息
+                    let path = '';
+                    const section = el.closest('.section');
+                    const subsection = el.closest('.subsection');
+                    
+                    if (section) {
+                        path = section.querySelector('.section-title').textContent;
+                    }
+                    if (subsection) {
+                        path += ' > ' + subsection.querySelector('.subsection-title').textContent;
+                    }
+                    
+                    results.push({
+                        element: el,
+                        text: el.textContent,
+                        path: path
+                    });
+                    
+                    // 展开包含结果的父级
+                    if (subsection) {
+                        subsection.querySelector('.subsection-content').classList.add('show');
+                        subsection.closest('.section').querySelector('.section-content').classList.add('show');
+                    } else if (section) {
+                        section.querySelector('.section-content').classList.add('show');
+                    }
+                }
+            });
+            
+            // 显示搜索结果
+            const resultsContainer = document.getElementById('searchResultsList');
+            resultsContainer.innerHTML = '';
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<p>未找到匹配的内容</p>';
+            } else {
+                results.forEach((result, index) => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'search-result-item';
+                    resultItem.innerHTML = `
+                        <div>${result.text}</div>
+                        <div class="path">${result.path}</div>
+                    `;
+                    resultItem.addEventListener('click', function() {
+                        result.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        highlightText(result.element, searchTerm);
+                    });
+                    resultsContainer.appendChild(resultItem);
+                });
+            }
+            
+            document.getElementById('searchResults').style.display = 'block';
+        }
+        
+        function highlightText(element, searchTerm) {
+            const text = element.textContent;
+            const regex = new RegExp(searchTerm, 'gi');
+            const newText = text.replace(regex, match => `<span class="highlight">${match}</span>`);
+            
+            if (element.innerHTML !== newText) {
+                element.innerHTML = newText;
+            }
+        }
+    </script>
+</body>
+</html>

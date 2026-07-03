@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>404 - 铁驭迷路了</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        h1 {
+            font-size: 6rem;
+            color: var(--primary);
+            margin: 0;
+            letter-spacing: 5px;
+        }
+        
+        h2 {
+            color: var(--secondary);
+            font-size: 2rem;
+            margin-top: 0;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin: 1rem 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            color: black;
+            text-decoration: none;
+            border: 2px solid black;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 20px 10px;
+            transition: all 0.3s;
+            box-sizing: border-box;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: black;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .error-message {
+            font-style: italic;
+            color: #aaa;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 1.5rem; }
+            .container { padding: 1.5rem; margin: 1rem; }
+            .btn {
+                padding: 10px 20px;
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>404</h1>
+        <h2>铁驭报告：目标页面失踪</h2>
+        
+        <p>我们的先锋级泰坦似乎把这一页当废铁回收了...</p>
+        <p>也可能是IMC的阴谋，他们总爱搞这些小动作</p>
+        <p><del>绝对不是戴维斯又按错了按钮</del></p>
+        
+        <div class="button-container">
+            <a href="https://taki-ohh.github.io/Mr.-Youer" class="btn">
+                返回首页
+            </a>
+            <a href="javascript:void(0)" onclick="alert('呼叫BT-7274...\n\n抱歉，通讯系统也404了')" 
+               class="btn btn-secondary">
+                请求支援
+            </a>
+        </div>
+        
+        <p class="error-message">
+            错误代码：BT_NOT_FOUND<br>
+            建议操作：<del>来杯咖啡，等泰坦技师修好这个bug</del>建议您返回首页
+        </p>
+    </div>
+    
+    <script>
+        // 随机404幽默消息
+        const messages = [
+            "协议3：保护404页面",
+            "我们的数据刀没能切开这个链接",
+            "有坏逼用核武砸坏了这个界面",
+            "这页被光束无人机叼走了",
+            "铁驭，我们失去了导航信号"
+        ];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            const h2 = document.querySelector('h2');
+            h2.textContent += ` (${randomMsg})`;
+        });
+    </script>
+</body>
+</html>
