@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>404 - 铁驭迷路了</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --dark: #151a2e;
+            --light: #e8eaf0;
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --accent: #ffd93d;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: radial-gradient(ellipse at 20% 20%, #2a2f4a 0%, var(--dark) 60%);
+            color: var(--light);
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+        .container {
+            padding: 2rem;
+            max-width: 720px;
+            animation: fadeUp .6s ease forwards;
+            opacity: 0;
+        }
+        h1 {
+            font-size: 6rem;
+            color: var(--primary);
+            margin: 0;
+            letter-spacing: 5px;
+            text-shadow: 0 0 40px rgba(255, 107, 107, .35);
+            line-height: 1.1;
+        }
+        h2 {
+            color: var(--secondary);
+            font-size: 1.6rem;
+            margin: .6rem 0 1rem;
+        }
+        p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin: .5rem 0;
+            color: var(--light);
+            opacity: .92;
+        }
+        .cat {
+            font-size: 2.2rem;
+            margin: .8rem 0;
+            display: inline-block;
+            animation: catSway 3s ease-in-out infinite;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 1.6rem 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 13px 32px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, .3);
+            transition: all .3s;
+        }
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 26px rgba(255, 107, 107, .45);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            box-shadow: none;
+        }
+        .btn-secondary:hover {
+            background: rgba(78, 205, 196, .12);
+            box-shadow: 0 8px 18px rgba(78, 205, 196, .2);
+        }
+        .error-message {
+            font-style: italic;
+            color: #9aa0b5;
+            margin-top: 1.4rem;
+            font-size: .9rem;
+        }
+        @keyframes fadeUp {
+            to { opacity: 1; }
+        }
+        @keyframes catSway {
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(4deg); }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 1.2rem; }
+            .container { padding: 1.5rem; margin: 1rem; }
+            .btn { padding: 10px 22px; min-width: 130px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cat">🐱‍👤</div>
+        <h1>404</h1>
+        <h2>铁驭报告：目标页面失踪</h2>
+
+        <p>我们的先锋级泰坦似乎把这一页当废铁回收了...</p>
+        <p>也可能是IMC的阴谋，他们总爱搞这些小动作</p>
+        <p>又或者……是被路过的猫娘叼去当磨爪板了</p>
+        <p><del>绝对不是戴维斯又按错了按钮</del></p>
+
+        <div class="button-container">
+            <a href="./" class="btn">返回首页</a>
+            <a href="javascript:void(0)" onclick="alert('呼叫BT-7274...\n\n抱歉，通讯系统也404了\n（猫娘正在赶来救援）')"
+               class="btn btn-secondary">请求支援</a>
+        </div>
+
+        <p class="error-message">
+            错误代码：BT_NOT_FOUND&nbsp;&nbsp;|&nbsp;&nbsp;喵·已迷路<br>
+            建议操作：<del>来杯咖啡，等泰坦技师修好这个bug</del>返回首页，或者摸摸猫头
+        </p>
+    </div>
+
+    <script>
+        // 随机404幽默消息
+        const messages = [
+            "协议3：保护404页面（喵）",
+            "我们的数据刀没能切开这个链接",
+            "有坏逼用核武砸坏了这个界面",
+            "这页被光束无人机叼走了",
+            "铁驭，我们失去了导航信号",
+            "这页被猫尾巴扫进虚空了",
+            "信号丢失，但猫毛找到了",
+            "绒理机正在翻找这个页面……没找到，先打个哈欠"
+        ];
+        document.addEventListener('DOMContentLoaded', function() {
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            const h2 = document.querySelector('h2');
+            h2.textContent += ` (${randomMsg})`;
+        });
+    </script>
+</body>
+</html>
