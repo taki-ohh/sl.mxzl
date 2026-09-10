@@ -2,6 +2,11 @@
     "groupName": "sl、ks、摸鱼兼容规则",
     "minClientVersion": "1.1",
     "generatedAt": 1826100000,
+    "updateUrls": [
+        "https://taki-ohh.github.io/sl.mxzl/motif/sl_moyu_ks.json",
+        "https://sl-mxzl.pages.dev/motif/sl_moyu_ks.json",
+        "https://cdn.jsdelivr.net/gh/taki-ohh/sl.mxzl@main/motif/sl_moyu_ks.json"
+    ],
     "rules": [
         {
             "name": "ks",
