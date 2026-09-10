@@ -1,0 +1,64 @@
+{
+    "groupName": "sl、ks、摸鱼兼容规则",
+    "minClientVersion": "1.1",
+    "generatedAt": 1826100000,
+    "rules": [
+        {
+            "name": "ks",
+            "match": "101.35.48.252",
+            "enableMods": [
+                "Elite Titans Fix",
+                "Kzhui HUD helper",
+                "HUD Revamp Gt ver For KS SERVER."
+            ],
+            "disableMods": [
+                "HUD Revamp Gt ver.",
+                "EliteTitansFix.SL",
+                "Northstar.FD.SL",
+                "Northstar.FD"
+            ]
+        },
+        {
+            "name": "sl",
+            "match": "103.236.93.62",
+            "enableMods": [
+                "EliteTitansFix.SL",
+                "Northstar.FD.SL"
+            ],
+            "disableMods": [
+                "Elite Titans Fix",
+                "Kzhui HUD helper",
+                "HUD Revamp Gt ver For KS SERVER.",
+                "Northstar.FD"
+            ]
+        },
+        {
+            "name": "摸鱼-1",
+            "match": "111.228.12.149",
+            "enableMods": [
+                "Northstar.FD"
+            ],
+            "disableMods": [
+                "Elite Titans Fix",
+                "Kzhui HUD helper",
+                "HUD Revamp Gt ver For KS SERVER.",
+                "EliteTitansFix.SL",
+                "Northstar.FD.SL"
+            ]
+        },
+        {
+            "name": "摸鱼-2",
+            "match": "117.72.59.29",
+            "enableMods": [
+                "Northstar.FD"
+            ],
+            "disableMods": [
+                "Elite Titans Fix",
+                "Kzhui HUD helper",
+                "HUD Revamp Gt ver For KS SERVER.",
+                "EliteTitansFix.SL",
+                "Northstar.FD.SL"
+            ]
+        }
+    ]
+}
